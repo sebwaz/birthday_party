@@ -1,0 +1,55 @@
+# base of all pyoobjects are streams
+# which is just a monophonic array of samples
+# aka a sine wave?
+
+# pyoobjects can handle many streams at once
+
+# almost all attributes of pyoobjects accept list of values
+# as input instead of single values
+# each value in list generates one stream
+
+# pyoobjects are considered lists by other ojects
+# function len(obj) returns # streams managed by object
+
+#-----------------------------------------------------------#
+# Imports
+#-----------------------------------------------------------#
+
+from pyo import *
+
+#-----------------------------------------------------------#
+# Code
+#-----------------------------------------------------------#
+
+s = Server().boot().start()
+s.amp = 0.1 # turn down 20dB
+
+## create a square wave with multi-channel expansion
+
+# set fundamental freq
+freq = 100
+# set highest harmonic?
+high = 5
+
+# generate list of odd harmonics
+harms = [ freq * i for i in range(1, high) if i%2 ==1 ]
+# generate list of harmonci amplitudes
+amps = [ 0.33/i for i in range(1, high) if i%2 ==1 ]
+
+# creates all sine waves at once
+# is this not computationally wasteful? 
+a = Sine(freq=harms, mul=amps)
+# Print number of streams managed by "a"
+print(len(a))
+
+# mix(voices) mixes streams into # of voices
+b = a.mix(voices=1).out()
+
+# display
+sc = Scope(b)
+
+
+# check out this cool gui
+s.gui(locals())
+
+# s.stop()
