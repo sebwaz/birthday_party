@@ -21,7 +21,7 @@ from pyo import *
 #-----------------------------------------------------------#
 
 # boot
-s = Server().boot()
+s = Server(duplex=0).boot()
 
 # fundamental freq
 freq0 = 200

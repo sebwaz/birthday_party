@@ -1,3 +1,4 @@
+#! python2
 """
 01-fixed-control.py - Number as argument.
 
@@ -7,7 +8,7 @@ value to their arguments at initialization time.
 """
 from pyo import *
 
-s = Server().boot()
+s = Server(duplex = 0).boot()
 s.amp = 0.1
 
 # Sets fundamental frequency

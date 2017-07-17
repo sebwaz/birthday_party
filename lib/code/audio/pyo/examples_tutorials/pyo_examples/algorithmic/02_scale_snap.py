@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# encoding: utf-8
+#! python2
 from __future__ import print_function
 """
 Algorithmic melody patterns snapped on a specific scale...
@@ -8,9 +11,15 @@ from pyo import *
 
 s = Server(duplex=0).boot()
 
-scls = [[0,4,7,11,13,17,21,25,29,33],
-        [0,7,12,14,17,21,24,29,31,34],
-        [0,7,10,12,15,19,20]]
+# scls = [[0,4,7,11,13,17,21,25,29,33],
+#         [0,3,6,14,17,21,24,29,31,34],
+#         [0,7,10,12,15,19,20]]
+
+# scls = [ [0,4,7,11,13,17,21,25,29,33],
+#          [0,3,6] ]
+
+scls = [ [0], [0,4,9] ]
+
 
 env = CosTable([(0,0),(50,1),(500,.25),(8191,0)])
 wav = SquareTable(5)

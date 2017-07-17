@@ -15,7 +15,7 @@ variable_name["trig"]
 from pyo import *
 import random
 
-s = Server().boot()
+s = Server(duplex=0).boot()
 
 # Sound bank
 folder = "../snds/"

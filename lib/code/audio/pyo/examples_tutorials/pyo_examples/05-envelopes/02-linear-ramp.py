@@ -19,7 +19,7 @@ controlled with a PyoObject.
 """
 from pyo import *
 
-s = Server().boot()
+s = Server(duplex=0).boot()
 
 # 2 seconds linear ramp starting at 0.0 and ending at 0.3.
 amp = SigTo(value=0.3, time=2.0, init=0.0)

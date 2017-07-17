@@ -16,7 +16,7 @@ the sound file in memory in a first pass.
 """
 from pyo import *
 
-s = Server().boot()
+s = Server(duplex = 0).boot()
 
 path = SNDS_PATH + "/transparent.aif"
 
