@@ -20,7 +20,10 @@ combsum = a + comb1 + comb2 + comb3 + comb4
 
 all1 = Allpass(combsum, delay=[.005,.00507], feedback=0.75)
 all2 = Allpass(all1, delay=[.0117,.0123], feedback=0.61)
-lowp = Tone(all2, freq=3500, mul=.2).out()
+lowp = Tone(all1, freq=3500, mul=.2).out()
 
+
+spec = Spectrum(a, size=1024)
 
 s.gui(locals())
+

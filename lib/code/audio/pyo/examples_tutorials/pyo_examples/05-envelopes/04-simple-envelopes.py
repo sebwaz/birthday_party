@@ -16,7 +16,7 @@ object, with a more flexible (and so common) kind of envelope.
 from pyo import *
 import random
 
-s = Server().boot()
+s = Server(duplex=0).boot()
 
 # Infinite sustain for the global envelope.
 globalamp = Fader(fadein=2, fadeout=2, dur=0).play()
