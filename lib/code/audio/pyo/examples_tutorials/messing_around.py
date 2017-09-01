@@ -26,7 +26,7 @@ CMajor4 = [C4, E4, G4]
 # Code
 #-----------------------------------------------------------#
 
-s 		= Server().boot().start()
+s 		= Server( duplex = 0 ).boot().start()
 s.amp 	= 0.1
 
 # cmajorchord
