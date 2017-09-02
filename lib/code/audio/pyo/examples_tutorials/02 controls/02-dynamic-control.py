@@ -10,7 +10,7 @@ from pyo import *
 # Code
 #-----------------------------------------------------------#
 
-s = Server().boot()
+s = Server( duplex = 0 ).boot()
 s.start()
 s.amp = 0.1 # turn down 20dB
 

@@ -43,25 +43,53 @@ Cdrop3  = [C3, E3, G3, B3]
 s 		= Server( duplex = 0 ).boot().start()
 s.amp 	= 0.1
 
+"""
+# Envelope for discrete events, sharp attack, long release.
+env = Adsr(attack=0.01, decay=0.1, sustain=0.0, release=0.1, dur=1, mul=2)
+
 # cmajorchord
-a = Sine( freq=Cdrop3 )
+a       = Sine( freq=CMajor4, mul = env )
 
 # mix down
-b = a.mix(1)
+b = a.mix(2)
 
 # chorus
 c = Chorus(input=b, feedback=0.5)
+c.out()
 
 # add stereo reverb to signal
 rev = Freeverb(c, size=1.0, damp=0.9, bal=0.3).out()
+rev.ctrl()      # open controller window
 
-# # create square
-# a = Sine( freq=harms, mul=amps )
-# print('Number of sine streams: %d' % len(a))
+# add another reverb
+rev2 = Freeverb( rev, size=1.0, damp=0.9, bal=0.3)
+rev2.out()
+rev2.ctrl()
 
-# # mix down
-# b = Chorus(a.mix(2), feedback=0.5).out()
-# print("Number of chorus streams: %d" %len(b))
+# # play supersaw
+# a_ssaw  = SuperSaw( freq=CMajor4, detune=0.5, bal=0.7, mul=env, add=0)
+# b_ssaw = a_ssaw.mix(1)
+# # b_ssaw = b_ssaw.out()
+# a_ssaw.ctrl()   # open controller window
+# b_ssaw = Freeverb(b_ssaw, size=1.0, damp=0.9, bal=0.3).out()
+# b_ssaw.ctrl()
+
+def play_note():
+    # Start the envelope for the event.
+    env.play()
+
+# Periodically call a function.
+pat = Pattern(play_note, time=2).play()
+"""
+
+# reading samples
+snd_path = '../../../../samples/OpenPathMusic44V1'
+fpath = snd_path + "/drum-snare-tap.wav"
+fpath = snd_path + "/drum-bass-lo-1.wav"
+
+
+# stereo playback with a slight shift between the two channels.
+sf = SfPlayer(fpath, speed=[1,1], loop=True, mul=1).out()
 
 # check out this cool gui
 s.gui(locals())

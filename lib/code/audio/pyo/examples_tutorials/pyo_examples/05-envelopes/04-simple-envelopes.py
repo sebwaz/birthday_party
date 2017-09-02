@@ -41,6 +41,6 @@ def play_note():
     env.play()
 
 # Periodically call a function.
-pat = Pattern(play_note, time=2).play()
+pat = Pattern(play_note, time=0.5).play()
 
 s.gui(locals())
