@@ -20,8 +20,8 @@
       <file leaf-file-name="using_beat.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/using_beat.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1054">
-              <caret line="68" column="16" lean-forward="true" selection-start-line="68" selection-start-column="16" selection-end-line="68" selection-end-column="16" />
+            <state relative-caret-position="272">
+              <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="30" selection-end-column="62" />
               <folding>
                 <element signature="n#!!doc" expanded="false" />
               </folding>
@@ -42,7 +42,7 @@
       <file leaf-file-name="04_drum_machine.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pyo_examples/algorithmic/04_drum_machine.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
+            <state relative-caret-position="408">
               <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="40" selection-end-column="72" />
               <folding />
             </state>
@@ -74,8 +74,8 @@
       <file leaf-file-name="drum_machine.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/drum_machine.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="43" column="0" lean-forward="true" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
+            <state relative-caret-position="646">
+              <caret line="71" column="9" lean-forward="true" selection-start-line="71" selection-start-column="9" selection-end-line="71" selection-end-column="9" />
               <folding>
                 <element signature="e#172#189#0" expanded="true" />
               </folding>
@@ -239,24 +239,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.04_drum_machine">
-    <configuration name="01-read-from-disk" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/pyo_examples/04-soundfiles" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="examples_tutorials" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pyo_examples/04-soundfiles/01-read-from-disk.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-    </configuration>
+  <component name="RunManager" selected="Python.drum_machine">
     <configuration name="01_starttime_duration" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -355,6 +338,23 @@
       <option name="_new_targetType" value="&quot;PATH&quot;" />
       <method />
     </configuration>
+    <configuration name="drum_machine" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="examples_tutorials" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/drum_machine.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+    </configuration>
     <configuration name="messing_around" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -391,18 +391,18 @@
     </configuration>
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.messing_around" />
-      <item index="1" class="java.lang.String" itemvalue="Python.01-read-from-disk" />
-      <item index="2" class="java.lang.String" itemvalue="Python.using_beat" />
-      <item index="3" class="java.lang.String" itemvalue="Python.01_starttime_duration" />
-      <item index="4" class="java.lang.String" itemvalue="Python.04_drum_machine" />
+      <item index="1" class="java.lang.String" itemvalue="Python.using_beat" />
+      <item index="2" class="java.lang.String" itemvalue="Python.01_starttime_duration" />
+      <item index="3" class="java.lang.String" itemvalue="Python.04_drum_machine" />
+      <item index="4" class="java.lang.String" itemvalue="Python.drum_machine" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.04_drum_machine" />
-        <item index="1" class="java.lang.String" itemvalue="Python.01_starttime_duration" />
-        <item index="2" class="java.lang.String" itemvalue="Python.using_beat" />
-        <item index="3" class="java.lang.String" itemvalue="Python.messing_around" />
-        <item index="4" class="java.lang.String" itemvalue="Python.01-read-from-disk" />
+        <item index="0" class="java.lang.String" itemvalue="Python.drum_machine" />
+        <item index="1" class="java.lang.String" itemvalue="Python.04_drum_machine" />
+        <item index="2" class="java.lang.String" itemvalue="Python.01_starttime_duration" />
+        <item index="3" class="java.lang.String" itemvalue="Python.using_beat" />
+        <item index="4" class="java.lang.String" itemvalue="Python.messing_around" />
       </list>
     </recent_temporary>
   </component>
@@ -818,36 +818,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/using_beat.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1054">
-          <caret line="68" column="16" lean-forward="true" selection-start-line="68" selection-start-column="16" selection-end-line="68" selection-end-column="16" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pyo_examples/sequencing/01_starttime_duration.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="442">
           <caret line="26" column="9" lean-forward="true" selection-start-line="26" selection-start-column="9" selection-end-line="26" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/note_dictionary.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="30" lean-forward="false" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pyo_examples/algorithmic/04_drum_machine.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="40" selection-end-column="72" />
           <folding />
         </state>
       </provider>
@@ -862,10 +836,36 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/pyo_examples/algorithmic/04_drum_machine.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="40" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/note_dictionary.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="30" lean-forward="false" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/using_beat.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="30" selection-end-column="62" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/drum_machine.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="43" column="0" lean-forward="true" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
+        <state relative-caret-position="646">
+          <caret line="71" column="9" lean-forward="true" selection-start-line="71" selection-start-column="9" selection-end-line="71" selection-end-column="9" />
           <folding>
             <element signature="e#172#189#0" expanded="true" />
           </folding>

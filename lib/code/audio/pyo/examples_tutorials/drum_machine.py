@@ -50,16 +50,26 @@ s 		= Server( duplex = 0 ).boot().start()
 s.amp 	= 0.1
 
 # stereo playback with a slight shift between the two channels.
-sf = SfPlayer(fpath, speed=[1,1], loop=True, mul=1)
+# sf = SfPlayer(fpath, speed=[1,1], loop=True, mul=1)
+
+# pick speed
+bpm             = 80       # beats per minute
+note            = 2         # note fraction
+beat_time       = 1.0/( note*(bpm/60.0) )     # time b/w notes
 
 # create a random beat, OR load the preset
-b = Beat(time=tm, w1=[90,30,30,20], w2=[30,90,50,40], w3=[0,30,30,40])
+b = Beat(time=beat_time, w1=[90,30,30,20], w2=[30,90,50,40], w3=[0,30,30,40])
 b.play()
 
-tt = TrigFunc(b['end'][0], function=ch)
+# tt = TrigFunc(b['end'][0], function=ch)
 
-tabs = SndTable(snds3)
-out = TrigEnv(b, table=tabs, dur=b['dur']*2, interp=4, mul=b['amp']*0.5)
+# load the samples into a sound table
+tabs = SndTable(drums)
+
+# create the trigger envelope which plays?
+# out = TrigEnv(b, table=tabs, dur=b['dur']*2, interp=4, mul=b['amp']*0.5)
+out = TrigEnv(b, table=tabs, dur=beat_time*note, interp=4, mul=b['amp']*0.5)
+out.out()
 
 # check out this cool gui
 s.gui(locals())
