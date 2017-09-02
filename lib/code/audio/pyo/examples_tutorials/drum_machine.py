@@ -54,7 +54,7 @@ s.amp 	= 0.1
 
 # pick speed
 bpm             = 80       # beats per minute
-note            = 2         # note fraction
+note            = 8         # note fraction
 beat_time       = 1.0/( note*(bpm/60.0) )     # time b/w notes
 
 # create a random beat, OR load the preset
