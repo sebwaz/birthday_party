@@ -23,7 +23,7 @@ applied to the argument that change the tone of the sound.
 """
 from pyo import *
 
-s = Server().boot()
+s = Server(duplex = 0).boot()
 
 # Sets fundamental frequency.
 freq = 200
