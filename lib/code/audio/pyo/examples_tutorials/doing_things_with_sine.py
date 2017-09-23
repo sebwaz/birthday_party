@@ -39,7 +39,11 @@ serv 		= Server( duplex = 0 ).boot().start()
 serv.amp 	= 0.707
 
 # Envelope
-env = Adsr(attack=0.5, decay=0.1, sustain=0.5, release=0.1, dur=0.5+0.1+0.1, mul=1)
+A = 0.5
+D = 0.1
+S = 0.5
+R = 0.1
+env = Adsr(attack=A, decay=D, sustain=S, release=R, dur=A+D+R, mul=0.5)
 
 # simple sine
 # s = Sine( freq=my_note_dict['A3'], mul= 0.5 )

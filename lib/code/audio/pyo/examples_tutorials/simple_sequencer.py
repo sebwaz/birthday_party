@@ -7,7 +7,7 @@ s = Server(duplex=0).boot()
 s.start()
 
 bpm       = 140
-note      = 2
+note      = 4
 beat_time = 1.0/( note*(bpm/60.0))
 window    = CosTable([(0,0), (0,1)])
 

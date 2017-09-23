@@ -17,12 +17,6 @@ from note_dictionary import *
 my_note_dict = note_dictionary( n_octs = 9 )
 
 # frequency definitions
-# C3 = 130.81
-# E3 = 164.81
-# G3 = 196.00
-# C4 = C3*2.0
-# E4 = E3*2.0
-# G4 = G3*2.0
 C3 = my_note_dict[ 'C3' ]
 E3 = my_note_dict[ 'E3' ]
 G3 = my_note_dict[ 'G3' ]
@@ -60,9 +54,6 @@ def play_drums( sf ):
 
 s 		= Server( duplex = 0 ).boot().start()
 s.amp 	= 1.0
-
-# stereo playback with a slight shift between the two channels.
-# sf = SfPlayer(fpath, speed=[1,1], loop=True, mul=1)
 
 # pick speed
 bpm             = 60.0        # beats per minute
