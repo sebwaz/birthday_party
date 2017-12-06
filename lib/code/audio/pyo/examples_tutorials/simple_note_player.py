@@ -23,7 +23,7 @@ s.start()
 
 # set BPM
 bpm       = 120
-note      = 2
+note      = 4
 beat_time = 1.0/( note*(bpm/60.0))
 
 # note dictionary

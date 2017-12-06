@@ -42,7 +42,6 @@ def note_dictionary( n_octs ):
     print('helloooo')
 
     # number of octaves/notes to use
-    n_octs  = 9
     n_notes = n_octs*12
 
     # list of frequencies on a standard 8 octave piano
