@@ -25,7 +25,7 @@ def sequencer(snds, pattern, bpm=140, tpb=4):
         warn("0 index reserved for rest (silence). Sounds assigned to 0 will not be expressed.")
 
     # pyo inits
-    s = Server(duplex=0).boot()
+    s = Server(duplex=0, winhost="asio").boot()
     s.start()
 
     # timing params
