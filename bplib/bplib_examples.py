@@ -1,4 +1,5 @@
 import bplib as bp
+import numpy as np
 
 example_number = int(input('Example to run: '))
 
@@ -18,3 +19,18 @@ elif example_number == 2:
     print('Converting to .aif...')
     bp.convert_to_aif('./samples/OpenPathMusic44V1/sleighbells.wav', './samples/output/', 'TEST')
     print('Done.')
+
+elif example_number == 3:
+    '''
+    3.) reading a .wav file as a waveform with values in range [-1, 1] 
+    '''
+    # STEREO
+    L, R, framerate = bp.read_wave('./samples/sebas/wav/once_we_were_fish.wav')
+    reverse_L = np.flip(L,0).tolist() # logicals in bp.create_sample() will not evaluate correctly if passed np arrays
+    reverse_R = np.flip(R,0).tolist() # thus, always use .tolist() after conducting transformations in numpy
+    bp.create_sample('example3_stereo', './samples/output/', reverse_L, reverse_R)
+
+    # MONO
+    mono, empty, framerate = bp.read_wave('./samples/OpenPathMusic44V1/sleighbells.wav')
+    reverse_mono = np.flip(mono, 0)
+    bp.create_sample('example3_mono', './samples/output/', reverse_mono)

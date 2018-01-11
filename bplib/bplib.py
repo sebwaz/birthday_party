@@ -1,7 +1,11 @@
-from pyo import *
+from pyo      import *
 from warnings import *
+from math     import floor
 import soundfile as sf
+import numpy     as np
 import os
+import wave
+import struct
 
 '''
 helper function for sequencer()
@@ -76,3 +80,103 @@ def convert_to_aif(source_path, out_dir, fname=''):
     # use the .aif extension that pyo recognizes
     base = os.path.splitext(out_dir+fname+'.aiff')[0]
     os.rename(out_dir+fname+'.aiff', base+'.aif')
+
+'''
+Read a .wav file as a stream(s) of values in the range [-1, 1]
+'''
+def read_wave(source_path, n_samples=None):
+    # get file info
+    wfile = wave.open(source_path, 'r')
+    nchannels = wfile.getparams().nchannels # 1 for mono, 2 for stereo. MONO CASE NOT ADDRESSED
+    sampwidth = wfile.getparams().sampwidth # number of bytes per sample
+    framerate = wfile.getparams().framerate # number of samples per second
+    nframes   = wfile.getparams().nframes   # number of samples in file (1 sample carries as many values as channels)
+
+    # prep to parse file content
+    if not n_samples or n_samples > nframes:
+        n_samples = nframes
+    typerange = 2 ** (8 * sampwidth)
+    read_data = wfile.readframes(n_samples)
+
+    # set byte format code (short by default)
+    code='<H'
+    if sampwidth==1:
+        code='<B'
+    elif sampwidth==4:
+        code='<I'
+    elif sampwidth==8:
+        code='<Q'
+
+    # if nchannels > 2, error
+    if nchannels > 2:
+        print('ERROR: input must be mono or stereo (n_channels = 1 or 2)')
+        wfile.close()
+        return
+
+    elif nchannels == 2:
+        # parse the read data
+        y      = np.repeat(np.arange(n_samples), sampwidth) * (2 * sampwidth)
+        l_i    = (y + np.tile(np.arange(sampwidth), n_samples)).reshape(n_samples, sampwidth)
+        r_i    = (y + np.tile(np.arange(sampwidth, sampwidth * 2), n_samples)).reshape(n_samples, sampwidth)
+        l_data = [struct.unpack(code, read_data[x[0]:x[-1] + 1])[0] for x in l_i]
+        r_data = [struct.unpack(code, read_data[x[0]:x[-1] + 1])[0] for x in r_i]
+
+        # convert to [-1, 1]
+        l_norm = [x/((typerange/2)-1) if x<=((typerange/2)-1) else -((typerange-x)/(typerange/2)) for x in l_data]
+        r_norm = [x/((typerange/2)-1) if x<=((typerange/2)-1) else -((typerange-x)/(typerange/2)) for x in r_data]
+        wfile.close()
+        return l_norm, r_norm, framerate
+
+    else:
+        # parse the read data
+        data = [struct.unpack(code, read_data[sampwidth*x:sampwidth*x+sampwidth])[0] for x in range(n_samples)]
+
+        # convert to [-1, 1]
+        norm = [x/((typerange/2)-1) if x<=((typerange/2)-1) else -((typerange-x)/(typerange/2)) for x in data]
+        wfile.close()
+        return norm, None, framerate
+
+'''
+Take a list of values in the range [-1, 1] representing the normalized amplitude for a waveform and convert it into
+a sound file with 16bit sample width. Automatically creates both .wav and .aif files
+'''
+def create_sample(fname, out_dir, channel1, channel2=None):
+    # if 2 channels, make sure matched in length
+    if channel2!=None and len(channel1)!=len(channel2):
+        print('ERROR: the 2 audio channels must have the same length (unless channel2=None)')
+        return
+
+    # set up file info
+    nchannels = 2 if channel2 else 1
+    sampwidth = 2
+    framerate = 44100
+    nframes   = len(channel1)
+    comptype  = 'NONE'
+    compname  = 'not compressed'
+    params    = (nchannels, sampwidth, framerate, nframes, comptype, compname)
+
+    # convert from [-1, 1]
+    typerange = 2 ** (8 * 2)
+    l_short = [int(floor(((x / 2) + 1) * typerange)) if x < 0 else int(floor((x / 2) * (typerange - 1))) for x in channel1]
+    r_short = [int(floor(((x / 2) + 1) * typerange)) if x < 0 else int(floor((x / 2) * (typerange - 1))) for x in channel2] if channel2 else []
+
+    # put back into a single byte stream. if mono, r_short will be empty, so no problem
+    merged = l_short + r_short
+    if channel2:
+        merged[::2]  = l_short
+        merged[1::2] = r_short
+
+    # convert the lest of sample values into bytes
+    byte_stream = b''.join([struct.pack('<H', merged[i]) for i in range(len(merged))])
+
+    # write the byte stream as a .wav file
+    wav_path = out_dir+fname+'.wav'
+    fwrite = wave.open(wav_path, 'w')
+    fwrite.setparams(params)
+    fwrite.writeframes(byte_stream)
+    fwrite.close()
+
+    # create corresponding .aif file
+    convert_to_aif(wav_path, out_dir)
+
+    return
