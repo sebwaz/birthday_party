@@ -32,5 +32,14 @@ elif example_number == 3:
 
     # MONO
     mono, empty, framerate = bp.read_wave('./samples/OpenPathMusic44V1/sleighbells.wav')
-    reverse_mono = np.flip(mono, 0)
+    reverse_mono = np.flip(mono, 0).tolist()
     bp.create_sample('example3_mono', './samples/output/', reverse_mono)
+
+    # NOISE: WRITE WITHOUT READ
+    noise_L = np.random.uniform(low=-1.0, high=1.0, size=44100*60).tolist()
+    noise_R = np.random.uniform(low=-1.0, high=1.0, size=44100*60).tolist()
+    bp.create_sample('example3_numpy_noise', './samples/output/', noise_L, noise_R)
+
+    # RAMP: WRITE WITHOUT READ
+    mono_ramp =  (((np.linspace(0.0, 1000.0, num=44100*30)**2)%2)-1).tolist()
+    bp.create_sample('example3_numpy_ramp', './samples/output/', mono_ramp)
