@@ -16,6 +16,25 @@ def make_trig_fn(sfplayer):
     return _function
 
 '''
+convert a 1-dimensional array to the seq format that sequencer expects
+'''
+def to_seq(vector):
+    return np.array(vector).reshape(len(vector),1)
+
+'''
+if given uneven sequence lengths, assumes they start at the same time and sequence is as long as max
+'''
+def merge_seq(seq1, seq2):
+    len_diff   = len(seq1)-len(seq2)
+    add_to_seq = to_seq(np.zeros(abs(len_diff)))
+    if len_diff > 0:
+        seq2 = np.concatenate((seq2, add_to_seq))
+    elif len_diff < 0:
+        seq1 = np.concatenate((seq1, add_to_seq))
+    return np.concatenate((seq1, seq2), axis=1)
+
+
+'''
 Takes a list SNDS of paths to sounds (0 should be empty str),
 and a list PATTERN that is a sequence of integers.
 Integers in PATTERN are interpreted as indices to SNDS,
@@ -39,10 +58,13 @@ def sequencer(snds, pattern, bpm=140, tpb=4):
     b     = [] # a list of (lists containing each sounds trigger pattern)
     sfp   = [] # a list of sfplayers for each sound
     trigs = [] # a list of TrigFunc handles
+
+    # loop to create each of the soundplayers
     for i in range(len(snds)):
+        # if not 0 (0 interpreted as silence
         if i:
             # interpret sequence as individual trigger patterns
-            seq = [int(x==i) for x in pattern]
+            seq = [int(i in x) for x in pattern]
             seq.insert(0, len(pattern))
 
             # setup individual trigger patterns
