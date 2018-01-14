@@ -12,13 +12,14 @@ if not os.path.isfile('./samples/aif/snare.aif'):
     bp.convert_to_aif(wav_path+'snare.wav', aif_path)
 
 # set tempo and create list of sounds
-tempo = 140
-snds  = ['']
+tempo       = 140
+with_drums  = True
+snds        = ['']
 
 # Create 5 random samples from church.wav
-L, R, framerate = bp.read_wave(wav_path+'church.wav')
+L, R, framerate = bp.read_wave(wav_path+'kwan.wav')
 sample_len      = int(floor(60*44100/tempo))
-for i in range(1,6):
+for i in range(1,num_samples+1):
     # get random index for the new sample
     index = int(np.random.randint(0, len(L)-sample_len))
 
@@ -35,24 +36,30 @@ snds.append(aif_path + 'kick.aif')
 snds.append(aif_path + 'snare.aif')
 s = len(snds)-1
 k = len(snds)-2
-# create sequence
-snares   = bp.to_seq(np.tile([0,0,0,0,s,0,0,0], 2))
-kicks    = np.random.randint(2, size=16)*(k)
-kicks[0] = k
-kicks    = bp.to_seq(kicks)
+
+
+#### CREATE SEQ ####
+# pattern the drums
+snares           = bp.to_seq(np.tile([0,0,0,0,s,0,0,0], 4))
+kicks            = np.tile(np.random.randint(2, size=16)*(k), 2)
+kicks[0]         = k
+kicks[16]        = k
+kicks            = bp.to_seq(kicks)
+kicks[snares==s] = 0
 
 # merge drums
 drums = bp.merge_seq(kicks, snares)
 
 # create sample seq
-samps = bp.to_seq(np.random.randint(6, size=16))
-samps[kicks==k]=1
+samps           = bp.to_seq(np.random.randint(num_samples+1, size=32))
+samps[kicks==k] = 1
+samps[16:24]    = samps[0:8] # first quarter to sound like third quarter
 
 # merge drums and samples
-seq   = bp.merge_seq(drums, samps)
+seq = bp.merge_seq(drums, samps)
 
 # play sequence
-bp.sequencer(snds, seq, 140, 2)
+bp.sequencer(snds, seq if with_drums else samps, tempo, 2)
 
 
 
