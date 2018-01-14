@@ -15,7 +15,7 @@ from note_dictionary import *
 #-----------------------------------------------------------#
 
 # grab note dictionary
-my_note_dict = note_dictionary( n_octs = 15 )
+my_note_dict = note_dictionary( n_octs = 30 )
 
 #-----------------------------------------------------------#
 # Code
@@ -28,7 +28,7 @@ note = 'E'
 serv 		= Server( duplex = 0 ).boot().start()
 
 # simple tone with a few harmonics
-fund_harm   = 4                    # fundamental harmonic to play
+fund_harm   = 5                    # fundamental harmonic to play
 n_harms     = 10                     # number of harmonics to play
 fund_note   = note + str(fund_harm)
 
