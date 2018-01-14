@@ -1,0 +1,1 @@
+Folders here contain projects that use bplib. Try to keep the "bplib" folder free of anything that isn't used for testing/demonstrating how bplib works. Each folder under "projects" should contain a copy of bplib, which can be replaced as bplib is updated.
