@@ -13,7 +13,6 @@ if not os.path.isfile('./samples/aif/snare.aif'):
 
 # set tempo and create list of sounds
 tempo       = 140
-tempo       = 120
 num_samples = 15
 with_drums  = True
 samp_align  = True
