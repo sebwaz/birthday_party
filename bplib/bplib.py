@@ -109,7 +109,7 @@ Read a .wav file as a stream(s) of values in the range [-1, 1]
 def read_wave(source_path, n_samples=None):
     # get file info
     wfile = wave.open(source_path, 'r')
-    nchannels = wfile.getparams().nchannels # 1 for mono, 2 for stereo. MONO CASE NOT ADDRESSED
+    nchannels = wfile.getparams().nchannels # 1 for mono, 2 for stereo.
     sampwidth = wfile.getparams().sampwidth # number of bytes per sample
     framerate = wfile.getparams().framerate # number of samples per second
     nframes   = wfile.getparams().nframes   # number of samples in file (1 sample carries as many values as channels)
