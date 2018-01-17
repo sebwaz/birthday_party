@@ -13,11 +13,14 @@ if not os.path.isfile('./samples/aif/snare.aif'):
 
 # set tempo and create list of sounds
 tempo       = 140
+tempo       = 120
+num_samples = 15
 with_drums  = True
+samp_align  = True
 snds        = ['']
 
 # Create 5 random samples from church.wav
-L, R, framerate = bp.read_wave(wav_path+'kwan.wav')
+L, R, framerate = bp.read_wave(wav_path+'perdue.wav')
 sample_len      = int(floor(60*44100/tempo))
 for i in range(1,num_samples+1):
     # get random index for the new sample
@@ -52,7 +55,8 @@ drums = bp.merge_seq(kicks, snares)
 
 # create sample seq
 samps           = bp.to_seq(np.random.randint(num_samples+1, size=32))
-samps[kicks==k] = 1
+if samp_align:
+    samps[kicks==k] = 1
 samps[16:24]    = samps[0:8] # first quarter to sound like third quarter
 
 # merge drums and samples
