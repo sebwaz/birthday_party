@@ -61,7 +61,7 @@ def sequencer(snds, pattern, bpm=140, tpb=4):
 
     # loop to create each of the soundplayers
     for i in range(len(snds)):
-        # if not 0 (0 interpreted as silence
+        # if not 0 (0 interpreted as silence)
         if i:
             # interpret sequence as individual trigger patterns
             seq = [int(i in x) for x in pattern]
