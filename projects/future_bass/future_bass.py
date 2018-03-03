@@ -30,7 +30,7 @@ if not os.path.isfile('./samples/aif/snare.aif'):
 
 # set tempo and create list of sounds
 tempo       = 140
-with_drums  = True
+with_drums  = False
 samp_align  = True
 snds        = ['']
 trips_1     = False
@@ -46,7 +46,7 @@ bar4  = trip_seq()*4
 samps = bp.to_seq(np.concatenate((bar1, bar2, bar3, bar4)))
 
 # Create 4 random samples from source wav
-L, R, framerate = bp.read_wave(wav_path+'church.wav')
+L, R, framerate = bp.read_wave(wav_path+'sebtoss.wav')
 sample_len      = int(floor(60*44100/(tempo*1.5)))
 for i in range(1,5):
     # get random index for the new sample
@@ -74,8 +74,7 @@ kick[0]  = k
 drums = bp.to_seq(np.concatenate((kick, snare, kick, snare)))
 
 # merge drums
-play = bp.merge_seq(drums, samps)
-print(play)
+play = bp.merge_seq(drums, samps) if with_drums else samps
 
 # play sequence
 bp.sequencer(snds, play, tempo*3, 2)
