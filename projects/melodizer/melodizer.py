@@ -3,12 +3,10 @@ import numpy as np
 import os
 from   math import floor
 
+
 # convert guitar sounds
 wav_path = './samples/wav/guitar/'
 aif_path = './samples/aif/'
-if not os.path.isfile('./samples/aif/0.aif'):
-    for k in range(25):
-        bp.convert_to_aif(wav_path+str(k)+'.wav', aif_path)
 
 # convert drum sounds
 if not os.path.isfile('./samples/aif/kick.aif'):
@@ -20,8 +18,17 @@ if not os.path.isfile('./samples/aif/snare.aif'):
 tempo       = 140
 num_samples = 24
 with_drums  = True
-samp_align  = True
+samp_align  = False
 snds        = ['']
+
+# get the sample length to prevent unintended overlap
+sample_len = int(floor(60*44100/tempo))
+if not os.path.isfile('./samples/aif/0.aif'):
+    for k in range(25):
+        L, R, framerate = bp.read_wave(wav_path + str(k) + '.wav')
+        sample_L = np.array(L[0:sample_len]).tolist()  # logicals in bp.create_sample() will not evaluate correctly if passed np arrays
+        sample_R = np.array(R[0:sample_len]).tolist()  # thus, always use .tolist() after conducting transformations in numpy
+        bp.create_sample(str(k), aif_path, sample_L, sample_R)
 
 # put the sounds in the rack
 for i in range(num_samples+1):
@@ -49,7 +56,7 @@ drums = bp.merge_seq(kicks, snares)
 # create sample seq
 samps           = np.random.randint(num_samples+1, size=32)
 zeros           = np.random.randint(2,             size=32)
-samps           = bp.to_seq(np.multiply(samps, zeros)) # TODOD: make this an option
+samps           = bp.to_seq(np.multiply(samps, zeros)) # TODO: make this an option
 if samp_align:
     samps[kicks==k] = 1
 samps[16:24]    = samps[0:8] # first quarter to sound like third quarter
