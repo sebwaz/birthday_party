@@ -188,6 +188,10 @@ def create_sample(fname, out_dir, channel1, channel2=None):
         merged[1::2] = r_short
 
     # convert the lest of sample values into bytes
+    # TODO: when working with very small floating poitn #s, sometimes get values at MAXSHORT+1
+    # TODO: figure out why the above happens and make robust fix (for now, truncate to max):
+    merged = [k if k<typerange else typerange-1 for k in merged]
+    print(max(merged))
     byte_stream = b''.join([struct.pack('<H', merged[i]) for i in range(len(merged))])
 
     # write the byte stream as a .wav file

@@ -13,13 +13,13 @@ if not os.path.isfile('./samples/aif/snare.aif'):
 
 # set tempo and create list of sounds
 tempo       = 140
-num_samples = 12
-with_drums  = False
-samp_align  = False
+num_samples = 5
+with_drums  = True
+samp_align  = True
 snds        = ['']
 
 # Create 5 random samples from church.wav
-L, R, framerate = bp.read_wave(wav_path+'sebspring.wav')
+L, R, framerate = bp.read_wave(wav_path+'piz_guitar.wav')
 sample_len      = int(floor(60*44100/tempo))
 for i in range(1,num_samples+1):
     # get random index for the new sample
