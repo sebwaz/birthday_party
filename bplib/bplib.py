@@ -108,10 +108,15 @@ Read a .wav file as a stream(s) of values in the range [-1, 1]
 def read_wave(source_path, n_samples=None):
     # get file info
     wfile = wave.open(source_path, 'r')
-    nchannels = wfile.getparams().nchannels # 1 for mono, 2 for stereo.
-    sampwidth = wfile.getparams().sampwidth # number of bytes per sample
-    framerate = wfile.getparams().framerate # number of samples per second
-    nframes   = wfile.getparams().nframes   # number of samples in file (1 sample carries as many values as channels)
+    # nchannels = wfile.getparams().nchannels # 1 for mono, 2 for stereo.
+    # sampwidth = wfile.getparams().sampwidth # number of bytes per sample
+    # framerate = wfile.getparams().framerate # number of samples per second
+    # nframes   = wfile.getparams().nframes   # number of samples in file (1 sample carries as many values as channels
+    nchannels   = wfile.getnchannels()
+    sampwidth   = wfile.getsampwidth()
+    framerate   = wfile.getframerate()
+    nframes     = wfile.getnframes()
+
 
     # prep to parse file content
     if not n_samples or n_samples > nframes:
@@ -143,8 +148,8 @@ def read_wave(source_path, n_samples=None):
         r_data = [struct.unpack(code, read_data[x[0]:x[-1] + 1])[0] for x in r_i]
 
         # convert to [-1, 1]
-        l_norm = [x/((typerange/2)-1) if x<=((typerange/2)-1) else -((typerange-x)/(typerange/2)) for x in l_data]
-        r_norm = [x/((typerange/2)-1) if x<=((typerange/2)-1) else -((typerange-x)/(typerange/2)) for x in r_data]
+        l_norm = [float(x)/((typerange/2)-1) if x<=((typerange/2)-1) else -((typerange-float(x))/(typerange/2)) for x in l_data]
+        r_norm = [float(x)/((typerange/2)-1) if x<=((typerange/2)-1) else -((typerange-float(x))/(typerange/2)) for x in r_data]
         wfile.close()
         return l_norm, r_norm, framerate
 
@@ -188,6 +193,10 @@ def create_sample(fname, out_dir, channel1, channel2=None):
         merged[1::2] = r_short
 
     # convert the lest of sample values into bytes
+    # TODO: when working with very small floating poitn #s, sometimes get values at MAXSHORT+1
+    # TODO: figure out why the above happens and make robust fix (for now, truncate to max):
+    merged = [k if k<typerange else typerange-1 for k in merged]
+    print(max(merged))
     byte_stream = b''.join([struct.pack('<H', merged[i]) for i in range(len(merged))])
 
     # write the byte stream as a .wav file

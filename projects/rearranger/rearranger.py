@@ -1,4 +1,4 @@
-import bplib as bp
+import bplib.bplib as bp
 from time import gmtime, strftime
 
 L_pos_chunks, L_neg_chunks, R_pos_chunks, R_neg_chunks = bp.chunkify('./samples/wav/AMP_BUZZ_SAW.wav')
