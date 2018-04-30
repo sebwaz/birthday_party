@@ -39,7 +39,6 @@ Takes a list SNDS of paths to sounds (0 should be empty str),
 and a list PATTERN that is a sequence of integers.
 Integers in PATTERN are interpreted as indices to SNDS,
 and sequencer() plays SNDS according to PATTERN imposing uniform duration on each sound.
-
 '''
 # TODO: allow poly mode (current mode is mono only)
 def sequencer(snds, pattern, bpm=140, tpb=4):
@@ -61,7 +60,7 @@ def sequencer(snds, pattern, bpm=140, tpb=4):
 
     # loop to create each of the soundplayers
     for i in range(len(snds)):
-        # if not 0 (0 interpreted as silence
+        # if not 0 (0 interpreted as silence)
         if i:
             # interpret sequence as individual trigger patterns
             seq = [int(i in x) for x in pattern]
@@ -109,7 +108,7 @@ Read a .wav file as a stream(s) of values in the range [-1, 1]
 def read_wave(source_path, n_samples=None):
     # get file info
     wfile = wave.open(source_path, 'r')
-    nchannels = wfile.getparams().nchannels # 1 for mono, 2 for stereo. MONO CASE NOT ADDRESSED
+    nchannels = wfile.getparams().nchannels # 1 for mono, 2 for stereo.
     sampwidth = wfile.getparams().sampwidth # number of bytes per sample
     framerate = wfile.getparams().framerate # number of samples per second
     nframes   = wfile.getparams().nframes   # number of samples in file (1 sample carries as many values as channels)
@@ -156,7 +155,7 @@ def read_wave(source_path, n_samples=None):
         # convert to [-1, 1]
         norm = [x/((typerange/2)-1) if x<=((typerange/2)-1) else -((typerange-x)/(typerange/2)) for x in data]
         wfile.close()
-        return norm, None, framerate
+        return norm, norm, framerate # design choice: mono outputs two identical channels
 
 '''
 Take a list of values in the range [-1, 1] representing the normalized amplitude for a waveform and convert it into
@@ -202,3 +201,107 @@ def create_sample(fname, out_dir, channel1, channel2=None):
     convert_to_aif(wav_path, out_dir)
 
     return
+
+'''
+Take a .wav file and return the positive and negative chunks for each of the stereo channels
+Output lists are unsorted by default
+'''
+def chunkify(source_path):
+    # read the audio channels from the file
+    L, R, framerate = read_wave(source_path)
+
+    # lists to hold the chunks from each channel
+    L_pos_chunks = []
+    L_neg_chunks = []
+    R_pos_chunks = []
+    R_neg_chunks = []
+
+    # for each channel
+    for k in range(2):
+        channel = np.asarray(L) if k == 0 else np.asarray(R)
+        pos = channel.copy()
+        neg = channel.copy()
+        pos[pos < 0] = 0
+        neg[neg > 0] = 0
+        pos_chunks = np.empty(shape=(0, 0))
+        neg_chunks = np.empty(shape=(0, 0))
+
+        # for both positive- and negative-passed copies
+        for h in range(2):
+            chunks = []
+            buf = []
+            write = False
+            samples = pos if h == 0 else neg
+
+            # create the chunk list
+            for t in samples:
+                if write:
+                    if t == 0:
+                        write = False
+                        buf.append(0)
+                        chunks.append(buf)
+                        buf = []
+                    else:
+                        buf.append(t)
+                elif t != 0 and write == False:
+                    write = True
+                    buf.append(t)
+
+            # save out copies of the chunk list
+            if h == 0:
+                pos_chunks = np.asarray(chunks.copy())
+                # allpos = [smp for chnk in pos_chunks for smp in chnk]
+            elif h == 1:
+                neg_chunks = np.asarray(chunks.copy())
+                # allneg = [smp for chnk in neg_chunks for smp in chnk]
+
+        # save out the master copies of the chunk lists
+        if k == 0:
+            L_pos_chunks = pos_chunks.copy()
+            L_neg_chunks = neg_chunks.copy()
+        elif k == 1:
+            R_pos_chunks = pos_chunks.copy()
+            R_neg_chunks = neg_chunks.copy()
+
+    # crop the chunk lists so that they are all the same size
+    chunk_counts = [L_pos_chunks.size, L_neg_chunks.size, R_pos_chunks.size, R_neg_chunks.size]
+    crop = min(chunk_counts)
+    L_pos_chunks = L_pos_chunks[0:crop]
+    L_neg_chunks = L_neg_chunks[0:crop]
+    R_pos_chunks = R_pos_chunks[0:crop]
+    R_neg_chunks = R_neg_chunks[0:crop]
+
+    # convert to standard py lists so that we can use py in-built sort function
+    L_pos_chunks = L_pos_chunks.tolist()
+    L_neg_chunks = L_neg_chunks.tolist()
+    R_pos_chunks = R_pos_chunks.tolist()
+    R_neg_chunks = R_neg_chunks.tolist()
+
+    return L_pos_chunks, L_neg_chunks, R_pos_chunks, R_neg_chunks
+
+'''
+Take the chunk lists from chunkify() and recombine them into a .wav file with alternating positive and negative chunks  
+'''
+def flatten_chunks(fname, out_dir, L_pos_chunks, L_neg_chunks, R_pos_chunks, R_neg_chunks):
+    # create the rearranged sequences
+    L_c = [None] * (len(L_pos_chunks) + len(L_neg_chunks))
+    R_c = [None] * (len(R_pos_chunks) + len(R_neg_chunks))
+
+    # in this case, do not rearrange the chunks, just put them back together in alternating pos-neg order
+    L_c[0::2] = L_pos_chunks
+    L_c[1::2] = L_neg_chunks
+    R_c[0::2] = R_pos_chunks
+    R_c[1::2] = R_neg_chunks
+
+    # flatten L_c and R_c
+    reL = [item for sublist in L_c for item in sublist]
+    reR = [item for sublist in R_c for item in sublist]
+
+    # crop reL and reR so that they are the same length
+    re_lens = [len(reL), len(reR)]
+    crop    = min(re_lens)
+    reL     = reL[0:crop]
+    reR     = reR[0:crop]
+
+    # write the recombined chunks as a wave file
+    create_sample(fname, out_dir, reL, reR)

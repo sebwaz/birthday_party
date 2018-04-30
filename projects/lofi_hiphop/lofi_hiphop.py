@@ -23,11 +23,13 @@ wav_path = './samples/wav/'
 
 # set tempo and create list of sounds
 tempo       = 140
+num_samples = 5
 with_drums  = True
+samp_align  = True
 snds        = ['']
 
 # Create 5 random samples from church.wav
-L, R, framerate = bp.read_wave(wav_path+'kwan.wav')
+L, R, framerate = bp.read_wave(wav_path+'piz_guitar.wav')
 sample_len      = int(floor(60*44100/tempo))
 for i in range(1,num_samples+1):
     # get random index for the new sample
@@ -61,8 +63,11 @@ kicks[snares==s] = 0
 drums = bp.merge_seq(kicks, snares)
 
 # create sample seq
-samps           = bp.to_seq(np.random.randint(num_samples+1, size=32))
-samps[kicks==k] = 1
+samps           = np.random.randint(num_samples+1, size=32)
+zeros           = np.random.randint(2,             size=32)
+samps           = bp.to_seq(np.multiply(samps, zeros)) # TODOD: make this an option
+if samp_align:
+    samps[kicks==k] = 1
 samps[16:24]    = samps[0:8] # first quarter to sound like third quarter
 
 # merge drums and samples
