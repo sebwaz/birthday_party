@@ -3,13 +3,23 @@ import numpy as np
 import os
 from   math import floor
 
-# convert drums sounds
+dir_path = os.path.dirname(os.path.realpath(__file__))
+print(dir_path)
+
+# # convert drums sounds
 wav_path = './samples/wav/'
-aif_path = './samples/aif/'
-if not os.path.isfile('./samples/aif/kick.aif'):
-    bp.convert_to_aif(wav_path+'kick.wav',  aif_path)
-if not os.path.isfile('./samples/aif/snare.aif'):
-    bp.convert_to_aif(wav_path+'snare.wav', aif_path)
+# aif_path = './samples/aif/'
+# if not os.path.isfile('./samples/aif/kick.aif'):
+#     bp.convert_to_aif(wav_path+'kick.wav',  aif_path)
+# if not os.path.isfile('./samples/aif/snare.aif'):
+#     bp.convert_to_aif(wav_path+'snare.wav', aif_path)
+
+# wav_path = 'C:/Users/beezy/git/birthday_party/projects/lofi_hiphop/samples/wav/'
+# aif_path = 'C:/Users/beezy/git/birthday_party/projects/lofi_hiphop/samples/aif/'
+# if not os.path.isfile('C:/Users/beezy/git/birthday_party/projects/lofi_hiphop/samples/aif/kick.aif'):
+#     bp.convert_to_aif(wav_path+'kick.wav',  aif_path)
+# if not os.path.isfile('C:/Users/beezy/git/birthday_party/projects/lofi_hiphop/samples/aif/snare.aif'):
+#     bp.convert_to_aif(wav_path+'snare.wav', aif_path)
 
 # set tempo and create list of sounds
 tempo       = 140
