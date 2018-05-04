@@ -32,7 +32,7 @@ for i in range(8):
 amp = Expseg(points, exp=3, mul=0.3)
 amp.graph(title="Amplitude envelope")
 
-sig = RCOsc(freq=[150,151], sharp=0.85, mul=amp)
+sig = RCOsc(freq=[220,222], sharp=0.85, mul=amp)
 
 # A simple linear function to vary the amount of frequency shifting.
 sft = Linseg([(0.0, 0.0), (0.5, 20.0), (2, 0.0)])
